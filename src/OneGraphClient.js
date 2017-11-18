@@ -13,9 +13,10 @@ const client = new ApolloClient({
       'Content-Type': 'application/json',
       'auth-token': Config.authToken,
     },
-    credentials: 'include',    
+    credentials: 'include',
   }),
   cache: new InMemoryCache(),
+  dataIdFromObject: object => `${object.__typename}-${object.id}`,
 });
 
 export default client;
