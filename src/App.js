@@ -3,7 +3,6 @@ import './App.css';
 import OneGraphClient from './OneGraphClient';
 import {ApolloProvider} from 'react-apollo';
 import StripeCustomers from './StripeCustomers';
-import StripeConnectLogin from './StripeConnectLogin';
 import StripeLoginGuard from './StripeLoginGuard';
 
 class App extends React.Component {

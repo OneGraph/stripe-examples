@@ -17,8 +17,7 @@ const stripeLoggedInQuery = gql`
 class StripeLoginGuard extends React.Component {
   render() {
     const {data} = this.props;
-    console.log(data);
-    if (data.networkStatus === 1) {
+    if (data.loading) {
       return <div>Loading...</div>;
     }
     if (data.error) {
