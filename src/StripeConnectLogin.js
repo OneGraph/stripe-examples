@@ -1,7 +1,7 @@
 import React from 'react';
 import Config from './Config';
 
-const windowWidth = Math.min(1000, Math.floor(window.outerWidth * 0.8));
+const windowWidth = Math.min(800, Math.floor(window.outerWidth * 0.8));
 const windowHeight = Math.min(630, Math.floor(window.outerHeight * 0.5));
 const windowArea = {
   width: windowWidth,
@@ -23,19 +23,39 @@ const windowOpts = {
   menuBar: 0,
 };
 
-class LoginButton extends React.Component {
-  _authWindow: ?window;
+const POLL_INTERVAL = 35;
+const FINISH_PATH = 'oauth/stripe/finish';
 
-  _handleAuthMessage = (event: MessageEvent) => {
-    if (event.origin === window.location.origin) {
-      const {data} = event;
-      if (data && typeof data === 'object') {
-        if (data.type === 'auth/finish') {
-          this._authWindow && this._authWindow.close();
-          this.props.onAuthGranted();
+class LoginButton extends React.Component {
+  _authWindow;
+
+  _waitForAuthFinish = () => {
+    let intervalId;
+    const clear = () => {
+      clearInterval(intervalId);
+      this._authWindow.close();
+    };
+    intervalId = setInterval(() => {
+      try {
+        const authLocation = this._authWindow.location;
+        console.log(
+          'polling',
+          this._authWindow.location,
+          document.location.host,
+          authLocation.host,
+          authLocation.pathname,
+        );
+        if (document.location.host === authLocation.host) {
+          if (authLocation.pathname === '/' + FINISH_PATH) {
+            clear();
+            this.props.onAuthGranted();
+          }
         }
+      } catch (e) {
+        console.error(e);
+        clear();
       }
-    }
+    }, POLL_INTERVAL);
   };
 
   _onAuthClick = () => {
@@ -43,7 +63,7 @@ class LoginButton extends React.Component {
     authUrl.pathname = '/oauth/start';
     authUrl.searchParams.set('service', 'stripe');
     authUrl.searchParams.set('app_id', Config.applicationId);
-    authUrl.searchParams.set('path', 'oauth/stripe/finish');
+    authUrl.searchParams.set('path', FINISH_PATH);
 
     this._authWindow = window.open(
       authUrl,
@@ -52,7 +72,7 @@ class LoginButton extends React.Component {
         .map(k => `${k}=${windowOpts[k]}`)
         .join(','),
     );
-    window.addEventListener('message', this._handleAuthMessage);
+    this._waitForAuthFinish();
   };
 
   render() {
