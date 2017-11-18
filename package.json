@@ -20,7 +20,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "prettier": "^1.7.4"
+    "prettier": "1.8.2"
   },
   "prettier": {
     "singleQuote": true,
