@@ -53,7 +53,6 @@ class StripeCustomers extends React.Component {
 const StripeCustomersWithData = graphql(query, {
   options: {variables: {limit: 2, cursor: null}},
   props({data: {loading, stripeCustomers, fetchMore, variables}}) {
-    console.log({variables});
     return {
       data: {
         loading,

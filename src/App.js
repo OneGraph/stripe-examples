@@ -11,7 +11,6 @@ class App extends React.Component {
       <ApolloProvider client={OneGraphClient}>
         <StripeLoginGuard>
           <div className="App">
-            <div>You're logged in!</div>
             <StripeCustomers />
           </div>
         </StripeLoginGuard>
