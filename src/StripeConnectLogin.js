@@ -1,5 +1,6 @@
 import React from 'react';
 import Config from './Config';
+import './css/stripe-connect.css';
 
 const windowWidth = Math.min(800, Math.floor(window.outerWidth * 0.8));
 const windowHeight = Math.min(630, Math.floor(window.outerHeight * 0.5));
@@ -38,13 +39,6 @@ class LoginButton extends React.Component {
     intervalId = setInterval(() => {
       try {
         const authLocation = this._authWindow.location;
-        console.log(
-          'polling',
-          this._authWindow.location,
-          document.location.host,
-          authLocation.host,
-          authLocation.pathname,
-        );
         if (document.location.host === authLocation.host) {
           if (authLocation.pathname === '/' + FINISH_PATH) {
             clear();
@@ -77,21 +71,9 @@ class LoginButton extends React.Component {
 
   render() {
     return (
-      <div>
-        <button
-          style={{
-            border: '1px solid lightgrey',
-            outline: 'none',
-            cursor: 'pointer',
-            backgroundColor: 'lightblue',
-            fontSize: 16,
-            padding: '12px 18px',
-            margin: '8px',
-          }}
-          onClick={this._onAuthClick}>
-          Login with Stripe
-        </button>
-      </div>
+      <button className="stripe-connect" onClick={this._onAuthClick}>
+        <span>Connect with Stripe</span>
+      </button>
     );
   }
 }
