@@ -3,7 +3,7 @@ import StripeCharges from './StripeCharges';
 
 const pages = [
   {id: 'customers', title: 'Customers', component: StripeCustomers},
-  {id: 'charges', title: 'Charges', component: StripeCharges}
+  {id: 'charges', title: 'Charges', component: StripeCharges},
 ];
 
 const config = {

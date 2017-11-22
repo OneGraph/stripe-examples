@@ -5,7 +5,7 @@ import moment from 'moment';
 import idx from 'idx';
 import gravatar from 'gravatar';
 import LoadingSpinner from './LoadingSpinner';
-import {Button, Container, Row, Col, Card, CardBody} from 'reactstrap';
+import {Button} from 'reactstrap';
 
 const PAGE_SIZE = 10;
 
@@ -60,19 +60,19 @@ class StripeCustomer extends React.Component {
     const subscription = idx(customer, _ => _.subscriptions.data[0]);
     const plan = idx(subscription, _ => _.items.data[0].plan);
     return (
-      <div class="project">
-        <div class="row bg-white has-shadow">
-          <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
-            <div class="project-title d-flex align-items-center">
-              <div class="image has-shadow">
+      <div className="project">
+        <div className="row bg-white has-shadow">
+          <div className="left-col col-lg-6 d-flex align-items-center justify-content-between">
+            <div className="project-title d-flex align-items-center">
+              <div className="image has-shadow">
                 <img
                   src={gravatar.url(customer.email, {d: 'retro'})}
                   alt="customer logo"
-                  class="img-fluid "
+                  className="img-fluid "
                 />
               </div>
-              <div class="text">
-                <h3 class="h4">{customer.email}</h3>
+              <div className="text">
+                <h3 className="h4">{customer.email}</h3>
                 <small
                   style={{
                     textOverflow: 'ellipses',
@@ -84,8 +84,8 @@ class StripeCustomer extends React.Component {
               </div>
             </div>
           </div>
-          <div class="right-col col-lg-6 d-flex align-items-center">
-            <div class="text">
+          <div className="right-col col-lg-6 d-flex align-items-center">
+            <div className="text">
               <div>Created {moment(customer.created * 1000).fromNow()}</div>
               <div>
                 {' '}
@@ -139,9 +139,9 @@ class StripeCustomers extends React.Component {
       ]);
     }
     return (
-      <div class="page">
+      <div className="page">
         <section>
-          <div class="container-fluid">{content}</div>
+          <div className="container-fluid">{content}</div>
         </section>
       </div>
     );

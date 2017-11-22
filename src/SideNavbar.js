@@ -44,15 +44,15 @@ class SideNavbar extends React.Component {
             <img
               src={logoSrc}
               alt="business logo"
-              class="img-fluid rounded-circle"
+              className="img-fluid rounded-circle"
             />
           </div>
           <div className="title">
-            <h1 class="h4">{account.business_name}</h1>
+            <h1 className="h4">{account.business_name}</h1>
             <p>{account.business_url}</p>
           </div>
         </div>
-        <ul class="list-unstyled">
+        <ul className="list-unstyled">
           {Config.pages.map(page => (
             <li
               className={page === this.props.activePage ? 'active' : ''}

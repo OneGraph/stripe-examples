@@ -1,5 +1,4 @@
 import React from 'react';
-import StripeCustomers from './StripeCustomers';
 
 class InnerContent extends React.Component {
   render() {

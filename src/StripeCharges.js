@@ -2,17 +2,16 @@ import React from 'react';
 import {graphql} from 'react-apollo';
 import gql from 'graphql-tag';
 import moment from 'moment';
-import idx from 'idx';
 import gravatar from 'gravatar';
 import LoadingSpinner from './LoadingSpinner';
-import {Button, Container, Row, Col, Card, CardBody} from 'reactstrap';
+import {Button} from 'reactstrap';
 
 const PAGE_SIZE = 10;
 
 function formatStripeAmount(amount, currency) {
   const locale = new Intl.NumberFormat().resolvedOptions().locale;
   return new Intl.NumberFormat(locale, {style: 'currency', currency}).format(
-    amount / 100
+    amount / 100,
   );
 }
 
@@ -65,7 +64,7 @@ class StripeCharges extends React.Component {
       content = <div>Error :( {this.props.data.error.message}</div>;
     } else {
       content = [
-        <table class="table">
+        <table className="table">
           <thead>
             <tr>
               <th>Customer</th>
@@ -79,6 +78,7 @@ class StripeCharges extends React.Component {
               <tr key={node.id}>
                 <td>
                   <img
+                    alt="customer logo"
                     className="img-fluid rounded-circle"
                     style={{width: 24, height: 24, marginRight: 12}}
                     src={gravatar.url(node.customer.email, {d: 'retro'})}
@@ -100,8 +100,7 @@ class StripeCharges extends React.Component {
             <Button
               color="info"
               onClick={this._loadMore}
-              disabled={this.state.loadingMore}
-            >
+              disabled={this.state.loadingMore}>
               Load More
             </Button>
           )
@@ -109,11 +108,11 @@ class StripeCharges extends React.Component {
       ]);
     }
     return (
-      <div class="page">
+      <div className="page">
         <section>
-          <div class="container-fluid">
-            <div class="card">
-              <div class="card-body">{content}</div>
+          <div className="container-fluid">
+            <div className="card">
+              <div className="card-body">{content}</div>
             </div>
           </div>
         </section>
@@ -147,7 +146,7 @@ const StripeChargesWithData = graphql(query, {
                 console.error(
                   'bad pagination query, throwing away results',
                   lastEdge.node.id,
-                  cursor
+                  cursor,
                 );
                 return previousResult;
               }
