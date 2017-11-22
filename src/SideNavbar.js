@@ -56,8 +56,15 @@ class SideNavbar extends React.Component {
           {Config.pages.map(page => (
             <li
               className={page === this.props.activePage ? 'active' : ''}
-              key={page.id}>
-              <a href="#" onClick={() => this.props.onSelectPage(page)}>
+              key={page.id}
+            >
+              <a
+                href="/"
+                onClick={e => {
+                  e.preventDefault();
+                  this.props.onSelectPage(page);
+                }}
+              >
                 {page.title}
               </a>
             </li>

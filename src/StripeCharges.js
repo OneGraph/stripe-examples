@@ -11,7 +11,7 @@ const PAGE_SIZE = 10;
 function formatStripeAmount(amount, currency) {
   const locale = new Intl.NumberFormat().resolvedOptions().locale;
   return new Intl.NumberFormat(locale, {style: 'currency', currency}).format(
-    amount / 100,
+    amount / 100
   );
 }
 
@@ -63,49 +63,52 @@ class StripeCharges extends React.Component {
       // XXX: better errors
       content = <div>Error :( {this.props.data.error.message}</div>;
     } else {
-      content = [
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Customer</th>
-              <th>Amount</th>
-              <th>Date</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.props.data.stripeCharges.edges.map(({node}) => (
-              <tr key={node.id}>
-                <td>
-                  <img
-                    alt="customer logo"
-                    className="img-fluid rounded-circle"
-                    style={{width: 24, height: 24, marginRight: 12}}
-                    src={gravatar.url(node.customer.email, {d: 'retro'})}
-                  />
-                  {node.customer.email}
-                </td>
-                <td>{formatStripeAmount(node.amount, node.currency)}</td>
-                <td>{moment(node.created * 1000).fromNow()}</td>
-                <td>{node.paid ? 'paid' : 'outstanding'}</td>
+      content = (
+        <div>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>,
-      ].concat([
-        this.props.data.stripeCharges.pageInfo.hasNextPage ? (
-          this.state.loadingMore ? (
-            <LoadingSpinner />
-          ) : (
-            <Button
-              color="info"
-              onClick={this._loadMore}
-              disabled={this.state.loadingMore}>
-              Load More
-            </Button>
-          )
-        ) : null,
-      ]);
+            </thead>
+            <tbody>
+              {this.props.data.stripeCharges.edges.map(({node}) => (
+                <tr key={node.id}>
+                  <td>
+                    <img
+                      alt="customer logo"
+                      className="img-fluid rounded-circle"
+                      style={{width: 24, height: 24, marginRight: 12}}
+                      src={gravatar.url(node.customer.email, {d: 'retro'})}
+                    />
+                    {node.customer.email}
+                  </td>
+                  <td>{formatStripeAmount(node.amount, node.currency)}</td>
+                  <td>{moment(node.created * 1000).fromNow()}</td>
+                  <td>{node.paid ? 'paid' : 'outstanding'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {this.props.data.stripeCharges.pageInfo.hasNextPage ? (
+            this.state.loadingMore ? (
+              <LoadingSpinner />
+            ) : (
+              <Button
+                color="info"
+                onClick={this._loadMore}
+                disabled={this.state.loadingMore}
+              >
+                Load More
+              </Button>
+            )
+          ) : null}
+        </div>
+      );
     }
     return (
       <div className="page">
@@ -146,7 +149,7 @@ const StripeChargesWithData = graphql(query, {
                 console.error(
                   'bad pagination query, throwing away results',
                   lastEdge.node.id,
-                  cursor,
+                  cursor
                 );
                 return previousResult;
               }
