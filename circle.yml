@@ -3,8 +3,9 @@ machine:
     version: 8.1.2
 
 dependencies:
-  pre:
+  override:
     - npm install -g firebase-tools
+    - yarn install
 
 test:
   override:
