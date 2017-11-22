@@ -7,6 +7,8 @@ import gravatar from 'gravatar';
 import LoadingSpinner from './LoadingSpinner';
 import {Button, Container, Row, Col, Card, CardBody} from 'reactstrap';
 
+const PAGE_SIZE = 10;
+
 const query = gql`
   query StripeCustomersQuery($cursor: String, $limit: Int) {
     stripeCustomers(after: $cursor, limit: $limit) {
@@ -57,7 +59,6 @@ class StripeCustomer extends React.Component {
     const {customer} = this.props;
     const subscription = idx(customer, _ => _.subscriptions.data[0]);
     const plan = idx(subscription, _ => _.items.data[0].plan);
-    console.log({plan});
     return (
       <div class="project">
         <div class="row bg-white has-shadow">
@@ -96,27 +97,6 @@ class StripeCustomer extends React.Component {
           </div>
         </div>
       </div>
-      /*       <Card>
-        <CardBody>
-          <div>
-            <img
-              alt="customer logo"
-              src={gravatar.url(customer.email, {d: 'retro'})}
-            />
-          </div>
-          <div>
-            <div>{customer.email}</div>
-            <div>Joined {moment(customer.created * 1000).fromNow()}</div>
-            {customer.delinquent ? <div>Delinquent!</div> : null}
-            <div>
-              {!plan
-                ? 'No plan'
-                : plan.name + ' plan (' + subscription.status + ')'}
-            </div>
-          </div>
-        </CardBody>
-      </Card>
- */
     );
   }
 }
@@ -132,35 +112,36 @@ class StripeCustomers extends React.Component {
   };
 
   render() {
-    console.log(this.props.data);
+    let content;
     if (this.props.data.loading) {
-      return <LoadingSpinner />;
-    }
-    if (this.props.data.error) {
+      content = <LoadingSpinner />;
+    } else if (this.props.data.error) {
       // XXX: better errors
-      return <div>Error :( {this.props.data.error.message}</div>;
+      content = <div>Error :( {this.props.data.error.message}</div>;
+    } else {
+      content = [
+        this.props.data.stripeCustomers.edges.map(s => (
+          <StripeCustomer key={s.node.id} customer={s.node} />
+        )),
+      ].concat([
+        this.props.data.stripeCustomers.pageInfo.hasNextPage ? (
+          this.state.loadingMore ? (
+            <LoadingSpinner />
+          ) : (
+            <Button
+              color="info"
+              onClick={this._loadMore}
+              disabled={this.state.loadingMore}>
+              Load More
+            </Button>
+          )
+        ) : null,
+      ]);
     }
     return (
       <div class="page">
         <section>
-          <div class="container-fluid">
-            {this.props.data.stripeCustomers.edges.map(s => (
-              <StripeCustomer key={s.node.id} customer={s.node} />
-            ))}
-
-            {this.props.data.stripeCustomers.pageInfo.hasNextPage ? (
-              this.state.loadingMore ? (
-                <LoadingSpinner />
-              ) : (
-                <Button
-                  color="info"
-                  onClick={this._loadMore}
-                  disabled={this.state.loadingMore}>
-                  Load More
-                </Button>
-              )
-            ) : null}
-          </div>
+          <div class="container-fluid">{content}</div>
         </section>
       </div>
     );
@@ -168,7 +149,7 @@ class StripeCustomers extends React.Component {
 }
 
 const StripeCustomersWithData = graphql(query, {
-  options: {variables: {limit: 2, cursor: null}},
+  options: {variables: {limit: PAGE_SIZE, cursor: null}},
   props({data: {loading, stripeCustomers, fetchMore, variables}}) {
     return {
       data: {
@@ -179,7 +160,7 @@ const StripeCustomersWithData = graphql(query, {
           return fetchMore({
             query,
             variables: {
-              limit: 2,
+              limit: PAGE_SIZE,
               cursor,
             },
             updateQuery: (previousResult, {fetchMoreResult, variables}) => {

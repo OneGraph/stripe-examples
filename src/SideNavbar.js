@@ -3,6 +3,7 @@ import {graphql} from 'react-apollo';
 import gql from 'graphql-tag';
 import LoadingSpinner from './LoadingSpinner';
 import gravatar from 'gravatar';
+import Config from './Config';
 
 const query = gql`
   query StripeAccountQuery {
@@ -51,6 +52,17 @@ class SideNavbar extends React.Component {
             <p>{account.business_url}</p>
           </div>
         </div>
+        <ul class="list-unstyled">
+          {Config.pages.map(page => (
+            <li
+              className={page === this.props.activePage ? 'active' : ''}
+              key={page.id}>
+              <a href="#" onClick={() => this.props.onSelectPage(page)}>
+                {page.title}
+              </a>
+            </li>
+          ))}
+        </ul>
       </nav>
     );
   }

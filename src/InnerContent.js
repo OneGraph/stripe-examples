@@ -3,14 +3,17 @@ import StripeCustomers from './StripeCustomers';
 
 class InnerContent extends React.Component {
   render() {
+    const Component = this.props.activePage.component;
     return (
       <div className="content-inner">
         <header className="page-header">
           <div className="container-fluid">
-            <h2 className="no-margin-bottom">Stripe Customers</h2>
+            <h2 className="no-margin-bottom">{this.props.activePage.title}</h2>
           </div>
         </header>
-        <StripeCustomers />
+        <div style={{minHeight: '100vh'}}>
+          <Component />
+        </div>
       </div>
     );
   }

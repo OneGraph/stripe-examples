@@ -6,8 +6,10 @@ import StripeCustomers from './StripeCustomers';
 import StripeLoginGuard from './StripeLoginGuard';
 import SideNavbar from './SideNavbar';
 import InnerContent from './InnerContent';
+import Config from './Config';
 
 class App extends React.Component {
+  state = {activePage: Config.pages[0]};
   render() {
     return (
       <div className="page">
@@ -27,8 +29,11 @@ class App extends React.Component {
         <div class="page-content d-flex align-items-stretch">
           <ApolloProvider client={OneGraphClient}>
             <StripeLoginGuard>
-              <SideNavbar />
-              <InnerContent />
+              <SideNavbar
+                activePage={this.state.activePage}
+                onSelectPage={activePage => this.setState({activePage})}
+              />
+              <InnerContent activePage={this.state.activePage} />
             </StripeLoginGuard>
           </ApolloProvider>
         </div>
