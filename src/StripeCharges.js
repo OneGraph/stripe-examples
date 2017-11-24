@@ -11,35 +11,37 @@ const PAGE_SIZE = 10;
 function formatStripeAmount(amount, currency) {
   const locale = new Intl.NumberFormat().resolvedOptions().locale;
   return new Intl.NumberFormat(locale, {style: 'currency', currency}).format(
-    amount / 100
+    amount / 100,
   );
 }
 
 const query = gql`
   query StripeChargesQuery($cursor: String, $limit: Int) {
-    stripeCharges(after: $cursor, limit: $limit) {
-      edges {
-        node {
-          id
-          created
-          paid
-          amount
-          currency
-          outcome {
-            network_status
-            reason
-            risk_level
-            rule
-            seller_message
-          }
-          customer {
-            email
+    stripe {
+      charges(after: $cursor, limit: $limit) {
+        edges {
+          node {
+            id
+            created
+            paid
+            amount
+            currency
+            outcome {
+              network_status
+              reason
+              risk_level
+              rule
+              seller_message
+            }
+            customer {
+              email
+            }
           }
         }
-      }
-      pageInfo {
-        endCursor
-        hasNextPage
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
       }
     }
   }
@@ -75,7 +77,7 @@ class StripeCharges extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.data.stripeCharges.edges.map(({node}) => (
+              {this.props.data.stripe.charges.edges.map(({node}) => (
                 <tr key={node.id}>
                   <td>
                     <img
@@ -94,15 +96,14 @@ class StripeCharges extends React.Component {
             </tbody>
           </table>
 
-          {this.props.data.stripeCharges.pageInfo.hasNextPage ? (
+          {this.props.data.stripe.charges.pageInfo.hasNextPage ? (
             this.state.loadingMore ? (
               <LoadingSpinner />
             ) : (
               <Button
                 color="info"
                 onClick={this._loadMore}
-                disabled={this.state.loadingMore}
-              >
+                disabled={this.state.loadingMore}>
                 Load More
               </Button>
             )
@@ -126,13 +127,13 @@ class StripeCharges extends React.Component {
 
 const StripeChargesWithData = graphql(query, {
   options: {variables: {limit: PAGE_SIZE, cursor: null}},
-  props({data: {loading, stripeCharges, fetchMore, variables}}) {
+  props({data: {loading, stripe, fetchMore, variables}}) {
     return {
       data: {
         loading,
-        stripeCharges,
+        stripe,
         loadMoreEntries: () => {
-          const cursor = stripeCharges.pageInfo.endCursor;
+          const cursor = stripe.charges.pageInfo.endCursor;
           return fetchMore({
             query,
             variables: {
@@ -140,16 +141,16 @@ const StripeChargesWithData = graphql(query, {
               cursor,
             },
             updateQuery: (previousResult, {fetchMoreResult, variables}) => {
-              const newEdges = fetchMoreResult.stripeCharges.edges;
+              const newEdges = fetchMoreResult.stripe.charges.edges;
               const lastEdge =
-                previousResult.stripeCharges.edges[
-                  previousResult.stripeCharges.edges.length - 1
+                previousResult.stripe.charges.edges[
+                  previousResult.stripe.charges.edges.length - 1
                 ];
               if (lastEdge.node.id !== cursor) {
                 console.error(
                   'bad pagination query, throwing away results',
                   lastEdge.node.id,
-                  cursor
+                  cursor,
                 );
                 return previousResult;
               }
@@ -158,12 +159,14 @@ const StripeChargesWithData = graphql(query, {
                     // Put the new comments at the end of the list and update `pageInfo`
                     // so we have the new `endCursor` and `hasNextPage` values
                     ...fetchMoreResult,
-                    stripeCharges: {
-                      ...fetchMoreResult.stripeCharges,
-                      edges: [
-                        ...previousResult.stripeCharges.edges,
-                        ...newEdges,
-                      ],
+                    stripe: {
+                      charges: {
+                        ...fetchMoreResult.stripe.charges,
+                        edges: [
+                          ...previousResult.stripe.charges.edges,
+                          ...newEdges,
+                        ],
+                      },
                     },
                   }
                 : previousResult;

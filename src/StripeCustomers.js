@@ -11,44 +11,46 @@ const PAGE_SIZE = 10;
 
 const query = gql`
   query StripeCustomersQuery($cursor: String, $limit: Int) {
-    stripeCustomers(after: $cursor, limit: $limit) {
-      edges {
-        node {
-          id
-          email
-          created
-          account_balance
-          delinquent
-          default_source
-          livemode
-          description
-          subscriptions {
-            data {
-              id
-              status
-              items {
-                total_count
-                data {
-                  id
-                  plan {
+    stripe {
+      customers(after: $cursor, limit: $limit) {
+        edges {
+          node {
+            id
+            email
+            created
+            account_balance
+            delinquent
+            default_source
+            livemode
+            description
+            subscriptions {
+              data {
+                id
+                status
+                items {
+                  total_count
+                  data {
                     id
-                    name
-                    currency
+                    plan {
+                      id
+                      name
+                      currency
+                    }
                   }
                 }
               }
+              total_count
             }
-            total_count
-          }
-          discount {
-            end
-            subscription
+            discount {
+              end
+              subscription
+            }
           }
         }
-      }
-      pageInfo {
-        endCursor
-        hasNextPage
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
       }
     }
   }
@@ -120,11 +122,11 @@ class StripeCustomers extends React.Component {
       content = <div>Error :( {this.props.data.error.message}</div>;
     } else {
       content = [
-        this.props.data.stripeCustomers.edges.map(s => (
+        this.props.data.stripe.customers.edges.map(s => (
           <StripeCustomer key={s.node.id} customer={s.node} />
         )),
       ].concat([
-        this.props.data.stripeCustomers.pageInfo.hasNextPage ? (
+        this.props.data.stripe.customers.pageInfo.hasNextPage ? (
           this.state.loadingMore ? (
             <LoadingSpinner />
           ) : (
@@ -150,13 +152,14 @@ class StripeCustomers extends React.Component {
 
 const StripeCustomersWithData = graphql(query, {
   options: {variables: {limit: PAGE_SIZE, cursor: null}},
-  props({data: {loading, stripeCustomers, fetchMore, variables}}) {
+  props({data: {loading, stripe, fetchMore, variables}}) {
     return {
       data: {
         loading,
-        stripeCustomers,
+
+        stripe,
         loadMoreEntries: () => {
-          const cursor = stripeCustomers.pageInfo.endCursor;
+          const cursor = stripe.customers.pageInfo.endCursor;
           return fetchMore({
             query,
             variables: {
@@ -164,10 +167,10 @@ const StripeCustomersWithData = graphql(query, {
               cursor,
             },
             updateQuery: (previousResult, {fetchMoreResult, variables}) => {
-              const newEdges = fetchMoreResult.stripeCustomers.edges;
+              const newEdges = fetchMoreResult.stripe.customers.edges;
               const lastEdge =
-                previousResult.stripeCustomers.edges[
-                  previousResult.stripeCustomers.edges.length - 1
+                previousResult.stripe.customers.edges[
+                  previousResult.stripe.customers.edges.length - 1
                 ];
               if (lastEdge.node.id !== cursor) {
                 console.error(
@@ -182,12 +185,14 @@ const StripeCustomersWithData = graphql(query, {
                     // Put the new comments at the end of the list and update `pageInfo`
                     // so we have the new `endCursor` and `hasNextPage` values
                     ...fetchMoreResult,
-                    stripeCustomers: {
-                      ...fetchMoreResult.stripeCustomers,
-                      edges: [
-                        ...previousResult.stripeCustomers.edges,
-                        ...newEdges,
-                      ],
+                    stripe: {
+                      customers: {
+                        ...fetchMoreResult.stripe.customers,
+                        edges: [
+                          ...previousResult.stripe.customers.edges,
+                          ...newEdges,
+                        ],
+                      },
                     },
                   }
                 : previousResult;
