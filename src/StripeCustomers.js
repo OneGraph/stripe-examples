@@ -18,9 +18,9 @@ const query = gql`
             id
             email
             created
-            account_balance
+            accountBalance
             delinquent
-            default_source
+            defaultSource
             livemode
             description
             subscriptions {
@@ -28,7 +28,7 @@ const query = gql`
                 id
                 status
                 items {
-                  total_count
+                  totalCount
                   data {
                     id
                     plan {
@@ -39,7 +39,7 @@ const query = gql`
                   }
                 }
               }
-              total_count
+              totalCount
             }
             discount {
               end

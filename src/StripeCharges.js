@@ -27,11 +27,11 @@ const query = gql`
             amount
             currency
             outcome {
-              network_status
+              networkStatus
               reason
-              risk_level
+              riskLevel
               rule
-              seller_message
+              sellerMessage
             }
             customer {
               email
