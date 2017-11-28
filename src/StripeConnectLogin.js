@@ -45,11 +45,13 @@ class LoginButton extends React.Component {
             this.props.onAuthGranted();
           }
         }
-      } catch (e if e instanceof DOMException) {
-        // do nothing--probably on the Stripe domain
       } catch (e) {
-        console.error(e);
-        clear();
+        if (e instanceof DOMException) {
+          // do nothing--probably on the Stripe domain
+        } else {
+          console.error(e);
+          clear();
+        }
       }
     }, POLL_INTERVAL);
   };
