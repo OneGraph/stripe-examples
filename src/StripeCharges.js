@@ -77,22 +77,30 @@ class StripeCharges extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.data.stripe.charges.edges.map(({node}) => (
-                <tr key={node.id}>
-                  <td>
-                    <img
-                      alt="customer logo"
-                      className="img-fluid rounded-circle"
-                      style={{width: 24, height: 24, marginRight: 12}}
-                      src={gravatar.url(node.customer.email, {d: 'retro'})}
-                    />
-                    {node.customer.email}
-                  </td>
-                  <td>{formatStripeAmount(node.amount, node.currency)}</td>
-                  <td>{moment(node.created * 1000).fromNow()}</td>
-                  <td>{node.paid ? 'paid' : 'outstanding'}</td>
-                </tr>
-              ))}
+              {this.props.data.stripe.charges.edges.map(({node}) => {
+                const customer = node.customer;
+                return (
+                  <tr key={node.id}>
+                    <td>
+                      <img
+                        alt="customer logo"
+                        className="img-fluid rounded-circle"
+                        style={{width: 24, height: 24, marginRight: 12}}
+                        src={gravatar.url(
+                          customer ? customer.email : 'deleted',
+                          {
+                            d: 'retro',
+                          },
+                        )}
+                      />
+                      {customer ? customer.email : 'Deleted'}
+                    </td>
+                    <td>{formatStripeAmount(node.amount, node.currency)}</td>
+                    <td>{moment(node.created * 1000).fromNow()}</td>
+                    <td>{node.paid ? 'paid' : 'outstanding'}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
 
