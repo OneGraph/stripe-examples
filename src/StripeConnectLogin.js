@@ -57,7 +57,7 @@ class LoginButton extends React.Component {
   };
 
   _onAuthClick = () => {
-    const authUrl = new URL('https://serve.onegraph.io');
+    const authUrl = new URL('https://serve.onegraph.com');
     authUrl.pathname = '/oauth/start';
     authUrl.searchParams.set('service', 'stripe');
     authUrl.searchParams.set('app_id', Config.applicationId);

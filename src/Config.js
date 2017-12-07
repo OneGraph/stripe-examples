@@ -15,7 +15,7 @@ const config = {
   authToken: DEV
     ? '65b25367-8f55-43b2-9ce5-72b4c3014b43'
     : '687b9599-781f-4dc7-9025-7246b9a02953',
-  oneGraphUrl: 'https://serve.onegraph.io/dynamic',
+  oneGraphUrl: 'https://serve.onegraph.com/dynamic',
   pages,
 };
 
