@@ -48,7 +48,7 @@ class SideNavbar extends React.Component {
             />
           </div>
           <div className="title">
-            <h1 className="h4">{account.business_name}</h1>
+            <h1 className="h4">{account.business_name || account.email}</h1>
             <p>{account.business_url}</p>
           </div>
         </div>
@@ -56,15 +56,13 @@ class SideNavbar extends React.Component {
           {Config.pages.map(page => (
             <li
               className={page === this.props.activePage ? 'active' : ''}
-              key={page.id}
-            >
+              key={page.id}>
               <a
                 href="/"
                 onClick={e => {
                   e.preventDefault();
                   this.props.onSelectPage(page);
-                }}
-              >
+                }}>
                 {page.title}
               </a>
             </li>
