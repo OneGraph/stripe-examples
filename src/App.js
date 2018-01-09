@@ -18,7 +18,10 @@ class App extends React.Component {
               <div className="navbar-header">
                 <div className="navbar-brand">
                   <div className="brand-text">
-                    Stripe<strong>Dashboard</strong>
+                    OneGraph Dashboard{' '}
+                    <small>
+                      for <em>Stripe</em>
+                    </small>
                   </div>
                 </div>
               </div>
