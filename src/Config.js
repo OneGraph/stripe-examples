@@ -1,8 +1,10 @@
-import StripeCustomers from './StripeCustomers';
+import {StripeCustomersWithData} from './StripeCustomers';
 import StripeCharges from './StripeCharges';
+import StripeDisputes from './StripeDisputes';
 
 const pages = [
-  {id: 'customers', title: 'Customers', component: StripeCustomers},
+  {id: 'disputes', title: 'Disputes', component: StripeDisputes},
+  {id: 'customers', title: 'Customers', component: StripeCustomersWithData},
   {id: 'charges', title: 'Charges', component: StripeCharges},
 ];
 
@@ -15,7 +17,9 @@ const config = {
   authToken: DEV
     ? '65b25367-8f55-43b2-9ce5-72b4c3014b43'
     : '687b9599-781f-4dc7-9025-7246b9a02953',
-  oneGraphUrl: 'https://serve.onegraph.com/dynamic',
+  oneGraphUrl: DEV
+    ? 'http://serve.onegraph.dev:8082/dynamic'
+    : 'https://serve.onegraph.com/dynamic',
   pages,
 };
 

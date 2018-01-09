@@ -56,7 +56,7 @@ const query = gql`
   }
 `;
 
-class StripeCustomer extends React.Component {
+export class StripeCustomer extends React.Component {
   render() {
     const {customer} = this.props;
     const subscription = idx(customer, _ => _.subscriptions.data[0]);
@@ -150,7 +150,7 @@ class StripeCustomers extends React.Component {
   }
 }
 
-const StripeCustomersWithData = graphql(query, {
+export const StripeCustomersWithData = graphql(query, {
   options: {variables: {limit: PAGE_SIZE, cursor: null}},
   props({data: {loading, stripe, fetchMore, variables}}) {
     return {
@@ -203,5 +203,3 @@ const StripeCustomersWithData = graphql(query, {
     };
   },
 })(StripeCustomers);
-
-export default StripeCustomersWithData;
