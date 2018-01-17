@@ -17,7 +17,9 @@
     "react-dom": "^16.0.0",
     "react-scripts": "1.0.17",
     "react-spinkit": "^3.0.0",
-    "reactstrap": "next"
+    "reactstrap": "next",
+    "onegraph-apollo-client": "0.1.9",
+    "onegraph-stripe-connect": "0.1.10"
   },
   "scripts": {
     "start": "react-scripts start",

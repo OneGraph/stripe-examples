@@ -1,7 +1,8 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import StripeConnectLogin from './StripeConnectLogin';
+import OneGraphStripeConnect from 'onegraph-stripe-connect';
 import LoadingSpinner from './LoadingSpinner';
+import Config from './Config';
 
 import {graphql} from 'react-apollo';
 
@@ -40,7 +41,8 @@ class StripeLoginGuard extends React.Component {
     return loggedIn ? (
       this.props.children
     ) : (
-      <StripeConnectLogin
+      <OneGraphStripeConnect
+        applicationId={Config.applicationId}
         onAuthGranted={() => {
           console.log('refetching');
           data.refetch();
