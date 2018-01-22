@@ -10,9 +10,9 @@ const query = gql`
     me {
       stripe {
         id
-        business_name
-        business_logo
-        business_url
+        businessName
+        businessLogo
+        businessUrl
         email
       }
     }
@@ -36,7 +36,7 @@ class SideNavbar extends React.Component {
     }
     const account = this.props.data.me.stripe;
     const logoSrc =
-      account.business_logo || gravatar.url(account.email, {d: 'retro'});
+      account.businessLogo || gravatar.url(account.email, {d: 'retro'});
     return (
       <nav className="side-navbar">
         <div className="sidebar-header d-flex align-items-center">
@@ -48,8 +48,8 @@ class SideNavbar extends React.Component {
             />
           </div>
           <div className="title">
-            <h1 className="h4">{account.business_name}</h1>
-            <p>{account.business_url}</p>
+            <h1 className="h4">{account.businessName}</h1>
+            <p>{account.businessUrl}</p>
           </div>
         </div>
         <ul className="list-unstyled">
