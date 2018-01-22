@@ -43,8 +43,17 @@ class StripeLoginGuard extends React.Component {
       this.props.children
     ) : (
       <Row style={{flexGrow: '1', paddingTop: '45px'}}>
-        <Col lg={2} style={{}} />
-        <Col lg={5} style={{}}>
+        <Col
+          lg={2}
+          style={{minHeight: '550px'}}
+          id="force-height"
+          className="d-xs-none"
+        />
+        <Col
+          xs={12}
+          md={10}
+          lg={5}
+          className="justify-content-center align-self-center">
           <Jumbotron>
             <h1 className="display-4">Hello, world!</h1>
             <p className="lead">
@@ -70,8 +79,10 @@ class StripeLoginGuard extends React.Component {
             </p>
           </Jumbotron>
         </Col>
-        <Col lg={1} style={{}} />
+        <Col md={1} lg={1} style={{}} />
         <Col
+          xs={12}
+          md={12}
           lg={3}
           style={{}}
           className="justify-content-center align-self-center">
@@ -85,7 +96,7 @@ class StripeLoginGuard extends React.Component {
                 className="btn btn-primary btn-lg"
                 href="https://www.onegraph.com/"
                 role="button">
-                Sign up for OneGraph »
+                Sign up »
               </a>
             </p>
           </Jumbotron>
