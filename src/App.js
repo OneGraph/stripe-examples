@@ -18,7 +18,7 @@ class App extends React.Component {
               <div className="navbar-header">
                 <div className="navbar-brand">
                   <div className="brand-text">
-                    Stripe<strong>Dashboard</strong>
+                    Susan'{/*'*/}s Dispute<strong>Resolver</strong> for Stripe
                   </div>
                 </div>
               </div>
