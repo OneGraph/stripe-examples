@@ -5365,13 +5365,22 @@ once@^1.3.0, once@^1.3.1, once@^1.3.3, once@^1.4.0:
   dependencies:
     wrappy "1"
 
-onegraph-apollo-client@0.1.9:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/onegraph-apollo-client/-/onegraph-apollo-client-0.1.9.tgz#6720b73a9950dad802832bf254fd286b4ad23ad7"
+onegraph-apollo-client@0.1.23:
+  version "0.1.23"
+  resolved "https://registry.yarnpkg.com/onegraph-apollo-client/-/onegraph-apollo-client-0.1.23.tgz#a478e1abf979de7afacf6cba5c87d5401d0be131"
 
-onegraph-stripe-connect@0.1.10:
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/onegraph-stripe-connect/-/onegraph-stripe-connect-0.1.10.tgz#771b42c57566bb25bd207fc9eb95b050acb11acf"
+onegraph-auth@^0.1.23:
+  version "0.1.23"
+  resolved "https://registry.yarnpkg.com/onegraph-auth/-/onegraph-auth-0.1.23.tgz#28f18fa9a36b637f94b317dc50050afee9e8af18"
+  dependencies:
+    idx "^2.2.0"
+    regenerator-runtime "^0.11.1"
+
+onegraph-stripe-connect@0.1.23:
+  version "0.1.23"
+  resolved "https://registry.yarnpkg.com/onegraph-stripe-connect/-/onegraph-stripe-connect-0.1.23.tgz#1d96c444b2ae219df7dc181db3cece23e45236c9"
+  dependencies:
+    onegraph-auth "^0.1.23"
 
 onetime@^1.0.0:
   version "1.1.0"
@@ -6474,6 +6483,10 @@ regenerate@^1.2.1:
 regenerator-runtime@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.0.tgz#7e54fe5b5ccd5d6624ea6255c3473be090b802e1"
+
+regenerator-runtime@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
 
 regenerator-transform@^0.10.0:
   version "0.10.1"

@@ -18,8 +18,8 @@
     "react-scripts": "1.0.17",
     "react-spinkit": "^3.0.0",
     "reactstrap": "next",
-    "onegraph-apollo-client": "0.1.9",
-    "onegraph-stripe-connect": "0.1.10"
+    "onegraph-apollo-client": "0.1.23",
+    "onegraph-stripe-connect": "0.1.23"
   },
   "scripts": {
     "start": "react-scripts start",

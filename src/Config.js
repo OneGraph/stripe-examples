@@ -7,7 +7,7 @@ const pages = [
 ];
 
 const config = {
-  applicationId: '22de62ff-4c25-49a2-b06c-fbe355aec76a',
+  appId: '22de62ff-4c25-49a2-b06c-fbe355aec76a',
   pages,
 };
 

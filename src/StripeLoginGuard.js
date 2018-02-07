@@ -71,7 +71,7 @@ class StripeLoginGuard extends React.Component {
             <p>Login to try it out with your Stripe data!</p>
             <p className="lead">
               <OneGraphStripeConnect
-                applicationId={Config.applicationId}
+                appId={Config.appId}
                 onAuthGranted={() => {
                   data.refetch();
                 }}

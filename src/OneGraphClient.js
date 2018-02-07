@@ -3,7 +3,7 @@ import OneGraphApolloClient from 'onegraph-apollo-client';
 import Config from './Config';
 
 const client = new OneGraphApolloClient({
-  applicationId: Config.applicationId,
+  appId: Config.appId,
 });
 
 export default client;
