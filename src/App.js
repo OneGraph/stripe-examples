@@ -2,63 +2,97 @@ import React from 'react';
 import './App.css';
 import OneGraphClient from './OneGraphClient';
 import {ApolloProvider} from 'react-apollo';
-import StripeLoginGuard from './StripeLoginGuard';
+import Landing from './Landing';
 import SideNavbar from './SideNavbar';
 import InnerContent from './InnerContent';
 import Config from './Config';
+import OneGraphAuth from 'onegraph-auth';
+import Header from './Header';
+import Footer from './Footer';
+import LoadingSpinner from './LoadingSpinner';
 
 class App extends React.Component {
-  state = {activePage: Config.pages[0]};
+  state = {activePage: Config.pages[0], isLoggedIn: false, initializing: true};
+  _oneGraphAuth = new OneGraphAuth({appId: Config.appId, service: 'stripe'});
+
+  componentDidMount() {
+    this._initialize();
+  }
+
+  _initialize = () => {
+    this._oneGraphAuth
+      .isLoggedIn()
+      .then(isLoggedIn => this.setState({isLoggedIn, initializing: false}))
+      .catch(error => {
+        console.error('Error logging in', error);
+        this.setState({initializing: false});
+      });
+  };
+
+  _selectPage = activePage => {
+    this.setState({activePage});
+  };
+
+  _handleAuthResponse = () => {
+    this.setState({initializing: true});
+    this._initialize();
+  };
+
+  _handleLogout = () => {
+    this._oneGraphAuth.logout().then(() => this._initialize());
+  };
+
+  _innerContent = () => {
+    const {activePage, initializing, isLoggedIn} = this.state;
+
+    if (initializing) {
+      return (
+        <div style={styles.spinnerContainer}>
+          <LoadingSpinner />
+        </div>
+      );
+    }
+    if (!isLoggedIn) {
+      return (
+        <Landing
+          oneGraphAuth={this._oneGraphAuth}
+          onAuthResponse={this._handleAuthResponse}
+        />
+      );
+    }
+    return (
+      <ApolloProvider client={OneGraphClient}>
+        <div className="page-content d-flex align-items-stretch">
+          <SideNavbar activePage={activePage} onSelectPage={this._selectPage} />
+          <InnerContent activePage={activePage} />
+        </div>
+      </ApolloProvider>
+    );
+  };
+
   render() {
     return (
       <div className="page">
-        <header className="header">
-          <nav className="navbar">
-            <div className="container-fluid">
-              <div className="navbar-header">
-                <div className="navbar-brand">
-                  <div className="brand-text">
-                    Susan'{/*'*/}s Dispute<strong>Resolver</strong> for Stripe
-                  </div>
-                </div>
-              </div>
-            </div>
-          </nav>
-        </header>
-        <div className="page-content d-flex align-items-stretch">
-          <ApolloProvider client={OneGraphClient}>
-            <StripeLoginGuard>
-              <SideNavbar
-                activePage={this.state.activePage}
-                onSelectPage={activePage => this.setState({activePage})}
-              />
-              <InnerContent activePage={this.state.activePage} />
-            </StripeLoginGuard>
-          </ApolloProvider>
-        </div>
-
-        <footer className="footer main-footer">
-          <div className="container">
-            <div className="row">
-              <div className="col-sm-6">
-                <p>OneGraph © 2018</p>
-              </div>
-              <div className="col-sm-6 text-right">
-                <p>
-                  Design by{' '}
-                  <a
-                    href="https://bootstrapious.com/admin-templates"
-                    className="external">
-                    Bootstrapious
-                  </a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </footer>
+        <Header
+          isLoggedIn={this.state.isLoggedIn}
+          onLogout={this._handleLogout}
+        />
+        {this._innerContent()}
+        <Footer />
       </div>
     );
   }
 }
+
+const styles = {
+  spinnerContainer: {
+    height: 'calc(100vh - 70px)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+};
 
 export default App;

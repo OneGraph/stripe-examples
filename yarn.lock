@@ -130,6 +130,10 @@
   version "7.0.48"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.48.tgz#24bfdc0aa82e8f6dbd017159c58094a2e06d0abb"
 
+"@types/node@^9.4.6":
+  version "9.4.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.6.tgz#d8176d864ee48753d053783e4e463aec86b8d82e"
+
 JSONStream@^1.2.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/JSONStream/-/JSONStream-1.3.1.tgz#707f761e01dae9e16f1bcf93703b78c70966579a"
@@ -303,12 +307,20 @@ apollo-link-http@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/apollo-link-http/-/apollo-link-http-1.1.0.tgz#a85cc43d9a5286bb54ac32213f7a16bef3554ae4"
 
-apollo-link@1.0.0, apollo-link@^1.0.0:
+apollo-link@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.0.0.tgz#3d334285789c217f95712ebce434d56ce7f3e991"
   dependencies:
     apollo-utilities "^0.2.0-beta.0"
     zen-observable "^0.6.0"
+
+apollo-link@^1.0.0:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.2.1.tgz#c120b16059f9bd93401b9f72b94d2f80f3f305d2"
+  dependencies:
+    "@types/node" "^9.4.6"
+    apollo-utilities "^1.0.0"
+    zen-observable-ts "^0.8.6"
 
 apollo-utilities@^0.2.0-beta.0:
   version "0.2.0-rc.3"
@@ -3639,8 +3651,8 @@ hoek@2.x.x:
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-2.16.3.tgz#20bb7403d3cea398e91dc4710a8ff1b8274a25ed"
 
 hoist-non-react-statics@^2.2.0:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.3.1.tgz#343db84c6018c650778898240135a1420ee22ce0"
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.0.tgz#d2ca2dfc19c5a91c5a6615ce8e564ef0347e2a40"
 
 home-dir@^1.0.0:
   version "1.0.0"
@@ -3889,7 +3901,13 @@ interpret@^1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.4.tgz#820cdd588b868ffb191a809506d6c9c8f212b1b0"
 
-invariant@^2.2.1, invariant@^2.2.2:
+invariant@^2.2.1:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.3.tgz#1a827dfde7dcbd7c323f0ca826be8fa7c5e9d688"
+  dependencies:
+    loose-envify "^1.0.0"
+
+invariant@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
@@ -5369,18 +5387,18 @@ onegraph-apollo-client@0.1.23:
   version "0.1.23"
   resolved "https://registry.yarnpkg.com/onegraph-apollo-client/-/onegraph-apollo-client-0.1.23.tgz#a478e1abf979de7afacf6cba5c87d5401d0be131"
 
-onegraph-auth@^0.1.23:
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/onegraph-auth/-/onegraph-auth-0.1.23.tgz#28f18fa9a36b637f94b317dc50050afee9e8af18"
+onegraph-auth@^0.1.24:
+  version "0.1.24"
+  resolved "https://registry.yarnpkg.com/onegraph-auth/-/onegraph-auth-0.1.24.tgz#18cb6d261a97239f933f11273e1ad6ea4560d150"
   dependencies:
     idx "^2.2.0"
     regenerator-runtime "^0.11.1"
 
-onegraph-stripe-connect@0.1.23:
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/onegraph-stripe-connect/-/onegraph-stripe-connect-0.1.23.tgz#1d96c444b2ae219df7dc181db3cece23e45236c9"
+onegraph-stripe-connect@0.1.24:
+  version "0.1.24"
+  resolved "https://registry.yarnpkg.com/onegraph-stripe-connect/-/onegraph-stripe-connect-0.1.24.tgz#704221a6f714a1daacced077871792ffc964058f"
   dependencies:
-    onegraph-auth "^0.1.23"
+    onegraph-auth "^0.1.24"
 
 onetime@^1.0.0:
   version "1.1.0"
@@ -6220,8 +6238,8 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     strip-json-comments "~2.0.1"
 
 react-apollo@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-2.0.0.tgz#c9cbda2956585d422800f1686d870258637170f8"
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-2.0.4.tgz#01dd32a8e388672f5d7385b21cdd0b94009ee9ee"
   dependencies:
     apollo-link "^1.0.0"
     hoist-non-react-statics "^2.2.0"
@@ -6337,8 +6355,8 @@ react-transition-group@^2.2.0:
     warning "^3.0.0"
 
 react@^16.0.0:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.0.0.tgz#ce7df8f1941b036f02b2cca9dbd0cb1f0e855e2d"
+  version "16.2.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
@@ -8114,9 +8132,19 @@ yargs@^8.0.2:
     y18n "^3.2.1"
     yargs-parser "^7.0.0"
 
+zen-observable-ts@^0.8.6:
+  version "0.8.8"
+  resolved "https://registry.yarnpkg.com/zen-observable-ts/-/zen-observable-ts-0.8.8.tgz#1a586dc204fa5632a88057f879500e0d2ba06869"
+  dependencies:
+    zen-observable "^0.7.0"
+
 zen-observable@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.6.0.tgz#8a6157ed15348d185d948cfc4a59d90a2c0f70ee"
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.6.1.tgz#01dbed3bc8d02cbe9ee1112c83e04c807f647244"
+
+zen-observable@^0.7.0:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/zen-observable/-/zen-observable-0.7.1.tgz#f84075c0ee085594d3566e1d6454207f126411b3"
 
 zip-stream@^1.2.0:
   version "1.2.0"
