@@ -5,6 +5,7 @@ import moment from 'moment';
 import gravatar from 'gravatar';
 import LoadingSpinner from './LoadingSpinner';
 import {Button} from 'reactstrap';
+import idx from 'idx';
 
 const PAGE_SIZE = 10;
 
@@ -77,7 +78,8 @@ class StripeCharges extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.data.stripe.charges.edges.map(({node}) => {
+              {(idx(this.props, _ => _.data.stripe.charges.edges) || []
+              ).map(({node}) => {
                 const customer = node.customer;
                 return (
                   <tr key={node.id}>
@@ -104,7 +106,7 @@ class StripeCharges extends React.Component {
             </tbody>
           </table>
 
-          {this.props.data.stripe.charges.pageInfo.hasNextPage ? (
+          {idx(this.props, _ => _.data.stripe.charges.pageInfo.hasNextPage) ? (
             this.state.loadingMore ? (
               <LoadingSpinner />
             ) : (

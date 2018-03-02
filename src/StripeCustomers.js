@@ -118,15 +118,15 @@ class StripeCustomers extends React.Component {
     if (this.props.data.loading) {
       content = <LoadingSpinner />;
     } else if (this.props.data.error) {
-      // XXX: better errors
+      // TODO: better errors
       content = <div>Error :( {this.props.data.error.message}</div>;
     } else {
       content = [
-        this.props.data.stripe.customers.edges.map(s => (
+        (idx(this.props, _ => _.data.stripe.customers.edges) || []).map(s => (
           <StripeCustomer key={s.node.id} customer={s.node} />
         )),
       ].concat([
-        this.props.data.stripe.customers.pageInfo.hasNextPage ? (
+        idx(this.props, _ => _.data.stripe.customers.pageInfo.hasNextPage) ? (
           this.state.loadingMore ? (
             <LoadingSpinner />
           ) : (
@@ -156,7 +156,6 @@ const StripeCustomersWithData = graphql(query, {
     return {
       data: {
         loading,
-
         stripe,
         loadMoreEntries: () => {
           const cursor = stripe.customers.pageInfo.endCursor;
