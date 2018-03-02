@@ -89,13 +89,13 @@ class StripeCharges extends React.Component {
                         className="img-fluid rounded-circle"
                         style={{width: 24, height: 24, marginRight: 12}}
                         src={gravatar.url(
-                          customer ? customer.email : 'deleted',
+                          customer ? customer.email : 'unknown',
                           {
                             d: 'retro',
                           },
                         )}
                       />
-                      {customer ? customer.email : 'Deleted'}
+                      {customer ? customer.email : 'Unknown'}
                     </td>
                     <td>{formatStripeAmount(node.amount, node.currency)}</td>
                     <td>{moment(node.created * 1000).fromNow()}</td>
