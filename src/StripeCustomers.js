@@ -90,7 +90,10 @@ class StripeCustomer extends React.Component {
                 {' '}
                 {!plan
                   ? 'No plan'
-                  : plan.nickname || 'unnamed' + ' plan (' + subscription.status + ')'}
+                  : (plan.nickname || 'unnamed') +
+                    ' plan (' +
+                    subscription.status +
+                    ')'}
               </div>
             </div>
           </div>
