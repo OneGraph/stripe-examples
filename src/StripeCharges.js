@@ -31,7 +31,6 @@ const query = gql`
               networkStatus
               reason
               riskLevel
-              rule
               sellerMessage
             }
             customer {

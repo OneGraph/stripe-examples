@@ -20,7 +20,6 @@ const query = gql`
             created
             accountBalance
             delinquent
-            defaultSource
             livemode
             description
             subscriptions {
@@ -28,18 +27,16 @@ const query = gql`
                 id
                 status
                 items {
-                  totalCount
                   data {
                     id
                     plan {
                       id
-                      name
+                      nickname
                       currency
                     }
                   }
                 }
               }
-              totalCount
             }
             discount {
               end
@@ -93,7 +90,7 @@ class StripeCustomer extends React.Component {
                 {' '}
                 {!plan
                   ? 'No plan'
-                  : plan.name + ' plan (' + subscription.status + ')'}
+                  : plan.nickname || 'unnamed' + ' plan (' + subscription.status + ')'}
               </div>
             </div>
           </div>
