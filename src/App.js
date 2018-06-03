@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import OneGraphClient from './OneGraphClient';
 import {ApolloProvider} from 'react-apollo';
 import Landing from './Landing';
 import SideNavbar from './SideNavbar';
@@ -10,10 +9,20 @@ import OneGraphAuth from 'onegraph-auth';
 import Header from './Header';
 import Footer from './Footer';
 import LoadingSpinner from './LoadingSpinner';
+import OneGraphApolloClient from 'onegraph-apollo-client';
 
 class App extends React.Component {
   state = {activePage: Config.pages[0], isLoggedIn: false, initializing: true};
-  _oneGraphAuth = new OneGraphAuth({appId: Config.appId, service: 'stripe'});
+
+  constructor(opts) {
+    super(opts);
+    this._oneGraphAuth = new OneGraphAuth({
+      appId: Config.appId,
+    });
+    this._apolloClient = new OneGraphApolloClient({
+      oneGraphAuth: this._oneGraphAuth,
+    });
+  }
 
   componentDidMount() {
     this._initialize();
@@ -21,7 +30,7 @@ class App extends React.Component {
 
   _initialize = () => {
     this._oneGraphAuth
-      .isLoggedIn()
+      .isLoggedIn('stripe')
       .then(isLoggedIn => this.setState({isLoggedIn, initializing: false}))
       .catch(error => {
         console.error('Error logging in', error);
@@ -39,7 +48,7 @@ class App extends React.Component {
   };
 
   _handleLogout = () => {
-    this._oneGraphAuth.logout().then(() => this._initialize());
+    this._oneGraphAuth.logout('stripe').then(() => this._initialize());
   };
 
   _innerContent = () => {
@@ -61,7 +70,7 @@ class App extends React.Component {
       );
     }
     return (
-      <ApolloProvider client={OneGraphClient}>
+      <ApolloProvider client={this._apolloClient}>
         <div className="page-content d-flex align-items-stretch">
           <SideNavbar activePage={activePage} onSelectPage={this._selectPage} />
           <InnerContent activePage={activePage} />
