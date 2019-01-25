@@ -13,5 +13,5 @@ It makes use of the Apollo GraphQL client and OneGraph GraphQL service
 ## Next steps
 
 * Check out our [documentation](https://docs.onegraph.com/docs/intro.html) to get started
-* Then [join our slack](https://chat.onegraphapp.com) for any questions or to share what you're building
+* Then [join our spectrum](https://spectrum.chat/onegraph) for any questions or to share what you're building
 * Reach out on [twitter](https://twitter.com/onegraphio)!
